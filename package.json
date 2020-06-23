@@ -1,0 +1,10 @@
+{
+  "name": "js-snippets-for-vcv",
+  "version": "1.0.0",
+  "description": "Javascript snippets for use embedded in VCV modules",
+  "author": "Aria Salvatrice",
+  "license": "WTFPL",
+  "dependencies": {
+    "@tonaljs/tonal": "^4.0.1"
+  }
+}
