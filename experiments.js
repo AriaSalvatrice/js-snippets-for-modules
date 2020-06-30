@@ -1,6 +1,8 @@
 Tonal = require("@tonaljs/tonal")
 
 function tokenize(input) {
+    input = input.replace("(", "") // No parentheses
+    input = input.replace(")", "")
     input = input.split(/[,-\s]\s*/) // Commas, hyphens, spaces
     input = input.filter(element => {return element != ""})
     return input
@@ -40,7 +42,7 @@ function parseAsRoman(tonic, input) {
 }
 
 // require("./tests.js")
-// console.log(parseAsRoman("A", "I vi"))
+console.log(parseAsRoman("C", "I V vim7 V bVI bIII bVII IV"))
 // console.log(parseAsRoman("A", "im VIm"))
 // console.log(parseAsRoman("A", "V7/V"))
 // console.log("- Valid Leadsheet 1:")
