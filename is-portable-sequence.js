@@ -1,4 +1,5 @@
-// True if looks like a portable sequence. If so we parse from C++.
+// True if looks like a portable sequence. 
+// Won't use this code actually lol.
 function isPortableSequence(input) {
     try {
         JSON.parse(input)
@@ -10,8 +11,3 @@ function isPortableSequence(input) {
     }
     return true
 }
-
-// require("./tests.js")
-// console.log(isPortableSequence(validPortableSequence))
-// console.log(isPortableSequence(badJsonPortableSequence))
-// console.log(isPortableSequence(badPropertyPortableSequence))

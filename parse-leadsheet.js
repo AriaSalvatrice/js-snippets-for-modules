@@ -13,7 +13,14 @@ function toVOct(pitch){
     pitch = Tonal.Midi.toMidi(pitch)
     pitch = (pitch - 60) * 1 / 12
     return pitch
-} 
+}
+
+function toScalePosition(pitch){
+    pitch = Tonal.Midi.toMidi(pitch)
+    pitch = (pitch - 60)
+    if(pitch >= 12) pitch = pitch - 12
+    return pitch
+}
 
 // Tonic on the 4th octave for easier further conversion
 function parseAsLeadsheet(input) {
@@ -34,6 +41,8 @@ function parseAsLeadsheet(input) {
 
 function leadsheetToQqqq(input) {
     results = parseAsLeadsheet(tokenize(input))
-    results = results.map(chord => chord.map(pitch => toVOct(pitch)))
+    results = results.map(chord => chord.map(pitch => toScalePosition(pitch)))
     return JSON.stringify(results)
 }
+
+// console.log(leadsheetToQqqq("C D E"));
