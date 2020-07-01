@@ -13,7 +13,14 @@ function toVOct(pitch){
     pitch = Tonal.Midi.toMidi(pitch)
     pitch = (pitch - 60) * 1 / 12
     return pitch
-} 
+}
+
+function toScalePosition(pitch){
+    pitch = Tonal.Midi.toMidi(pitch)
+    pitch = (pitch - 60)
+    if(pitch >= 12) pitch = pitch - 12
+    return pitch
+}
 
 // Tonic on the 4th octave for easier further conversion
 function parseAsLeadsheet(input) {
@@ -29,35 +36,23 @@ function parseAsLeadsheet(input) {
         return currentChord.intervals.map(interval => Tonal.transpose(currentFirstNote, interval))
 
     })
-    // return pitchSeries.map(chord => chord.map(pitch => toVOct(pitch)))
     return pitchSeries
 }
 
-// FIXME - It doesn't accept lowercase, but accepts a m suffix
-// FIXME - It doesn't accept slash chords
-function parseAsRoman(tonic, input) {
-    input = tokenize(input)
-    progression = Tonal.Progression.fromRomanNumerals(tonic, input)
-    return parseAsLeadsheet(progression)
+function leadsheetToQqqq(input) {
+    results = parseAsLeadsheet(tokenize(input))
+    results = results.map(chord => chord.map(pitch => toScalePosition(pitch)))
+    return JSON.stringify(results)
 }
 
-// require("./tests.js")
-console.log(parseAsRoman("C", "I V vim7 V bVI bIII bVII IV"))
-// console.log(parseAsRoman("A", "im VIm"))
-// console.log(parseAsRoman("A", "V7/V"))
-// console.log("- Valid Leadsheet 1:")
-// console.log(parseAsLeadsheet(tokenize(validLeadsheet1)))
-// console.log("- Valid Leadsheet 2:")
-// console.log(parseAsLeadsheet(validLeadsheet2))
-// console.log("- Valid Leadsheet 3:")
-// console.log(parseAsLeadsheet(validLeadsheet3))
-// console.log("- Valid Leadsheet 4:")
-// console.log(parseAsLeadsheet(validLeadsheet4))
-// console.log("- Valid Leadsheet 5:")
-// console.log(parseAsLeadsheet(validLeadsheet5))
-// console.log("- Invalid 1:")
-// console.log(parseAsLeadsheet(validRomanLeadsheet1))
-// console.log("- Invalid 2:")
-// console.log(parseAsLeadsheet(invalidInput1))
-// console.log("- Invalid 3:")
-// console.log(parseAsLeadsheet(invalidInput2))
+function romanToQqqq(tonic, input) {
+    input = tokenize(input)
+    progression = Tonal.Progression.fromRomanNumerals(tonic, input)
+    results = parseAsLeadsheet(progression)
+    results = results.map(chord => chord.map(pitch => toScalePosition(pitch)))
+    return JSON.stringify(results)
+}
+
+
+// console.log(leadsheetToQqqq("C D E"));
+console.log(romanToQqqq("C", "V ivm"));
